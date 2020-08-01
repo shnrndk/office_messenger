@@ -5,7 +5,54 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import * as firebase from 'firebase';
+
 export default function SignUp(){
+
+  const [state, setstate] = useState({
+    email: '',
+    password: '',
+    error: '',
+    loading: false
+  })
+
+  const onRegisterSuccess = () => {
+    setstate({
+      error: '',
+      loading: false
+
+    })
+  }
+
+
+  const handleSubmit = (values) => {
+    delete values.passwordConfirmation;
+    firebase.auth().createUserWithEmailAndPassword(values.email, values.password)
+      .catch((error) => {
+        console.log(error)
+      })
+      .then((user) => {
+        onRegisterSuccess();
+        const userDetails = {
+          email: values.email,
+          first_name: values.first_name,
+        }
+        firebase.database().ref('users').push(userDetails)
+        
+        async function storeUser() {
+                       
+          try {
+            await AsyncStorage.setItem('username', values.first_name)
+            await AsyncStorage.setItem('email', values.email)
+          } catch (e) {
+            console.log(e)
+          }
+        }
+
+        storeUser();
+  
+      })
+  }
 
 
     let registerSchema = yup.object({
