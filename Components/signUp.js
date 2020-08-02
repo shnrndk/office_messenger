@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
         marginTop: 45,
         fontSize: 25,
         fontWeight: 'bold',
-        color: '#4fc116',
+        color: '#6b6dee',
         marginHorizontal: 15,
       },
       errorMsg: {
