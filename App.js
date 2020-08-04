@@ -8,17 +8,11 @@ import Home from './Components/home';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import SignUp from './Components/signUp';
-import { firebaseConfig } from './firebase';
+import Firebase from './firebase';
 import * as firebase from 'firebase';
 import Intro from './Components/into';
 
 const Stack = createStackNavigator();
-
-
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
-
 
 
 export default function App() {

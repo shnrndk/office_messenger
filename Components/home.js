@@ -1,62 +1,66 @@
-const { disableExpoCliLogging } = require("expo/build/logs/Logs")
-import * as firebase from 'firebase';
-import React, { useState,useEffect,useCallback } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Button } from 'react-native-paper';
-import { GiftedChat } from 'react-native-gifted-chat'
+// @flow
+import React from 'react';
+import { GiftedChat } from 'react-native-gifted-chat'; // 0.3.0
+import { AsyncStorage } from 'react-native';
+import Fire from '../firebase';
 
-function getuser(){
-  return (firebase.auth().currentUser || {}).uid;
-}
+class Home extends React.Component {
 
+  /* static navigationOptions = ({ navigation }) => ({
+    title: (navigation.state.params || {}).name || 'Chat!',
+  }); */
 
-export default function Home() {
+   getuserName = async()=> {
 
-    const [messages, setMessages] = useState([]);
-
-    useEffect(() => {
-        setMessages([
-          {
-            _id: 1,
-            text: 'Hello developer',
-            createdAt: new Date(),
-            user: {
-              _id: 2,
-              name: 'React Native',
-              avatar: 'https://placeimg.com/140/140/any',
-            },
-          },
-        ])
-      }, [])
-
-      const onSend = useCallback(async (messages = []) => {
-        setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
-        
-
-        let msg = {
-            txt:messages[0]['text'],
-            user:await getuser(),
-            timestamp:firebase.database.ServerValue.TIMESTAMP
-        }
-        
-        
-        firebase.database().ref('messages').push(msg)
-      }, [])
-
-    return (
-        <GiftedChat
-            messages={messages}
-            onSend={messages => onSend(messages)}
-            user={{
-                _id: getuser(),
-            }}
-        />
-    )
-}
-
-
-const styles = StyleSheet.create({
-    container: {
-
+    try {
+        const username = await AsyncStorage.getItem('username');
+        return username
+    } catch (e) {
+        console.log(e)
     }
-})
+  }
+
+  state = {
+    messages: [],
+    username:null
+  };
+
+  get user() {
+    return {
+      name: this.state.username,
+      _id: Fire.shared.uid,
+    };
+  }
+
+  render() {
+    return (
+      <GiftedChat
+        messages={this.state.messages}
+        onSend={Fire.shared.send}
+        user={this.user}
+      />
+    );
+  }
+
+  componentDidMount() {
+    AsyncStorage.getItem("username").then((value) => {
+      this.setState({
+        ...this.state,
+        username: value
+      });
+  })
+ 
+
+    Fire.shared.on(message =>
+      this.setState(previousState => ({
+        ...this.state,
+        messages: GiftedChat.append(previousState.messages, message),
+      }))
+    );
+  }
+  componentWillUnmount() {
+    Fire.shared.off();
+  }
+}
+
+export default Home;
