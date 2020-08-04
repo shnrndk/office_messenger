@@ -6,10 +6,6 @@ import Fire from '../firebase';
 
 class Home extends React.Component {
 
-  /* static navigationOptions = ({ navigation }) => ({
-    title: (navigation.state.params || {}).name || 'Chat!',
-  }); */
-
    getuserName = async()=> {
 
     try {
@@ -52,10 +48,11 @@ class Home extends React.Component {
  
 
     Fire.shared.on(message =>
+      {console.log(message)
       this.setState(previousState => ({
         ...this.state,
         messages: GiftedChat.append(previousState.messages, message),
-      }))
+      }))}
     );
   }
   componentWillUnmount() {
