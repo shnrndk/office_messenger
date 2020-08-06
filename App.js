@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import React,{useState,useEffect} from 'react';
-import { StyleSheet, Text, View,ActivityIndicator} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import 'react-native-gesture-handler';
 import Login from './Components/login';
@@ -12,17 +12,19 @@ import Firebase from './firebase';
 import * as firebase from 'firebase';
 import Intro from './Components/into';
 import Chat from './Components/chat';
+import { AuthStackNavigator } from './Navigation/AuthStackNavigator';
+import { HomeStackNavigator } from './Navigation/HomeStackNavigator';
 
-const Stack = createStackNavigator();
+
 
 
 export default function App() {
 
   const [state, setstate] = useState({
-    loggedIn:false
+    loggedIn: false
   })
-  
-  
+
+
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
@@ -35,48 +37,36 @@ export default function App() {
           loggedIn: false
         })
       }
-  
+
     })
   }, [])
 
 
 
-switch (state.loggedIn) {
-  case false:
-    return (
-      <PaperProvider>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{
-          headerShown: false
-        }}>
-          
-          <Stack.Screen name="Intro" component={Intro} />
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Sign Up" component={SignUp} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </PaperProvider>
-    )
-  case true:
-    return (
-      <PaperProvider>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{
-          headerShown: false
-        }}>   
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="Chat" component={Chat} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </PaperProvider>
-    )
-  default:
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}>
-        <ActivityIndicator size="large" />
-      </View>
-    )
-}
+  switch (state.loggedIn) {
+    case false:
+      return (
+        <PaperProvider>
+          <NavigationContainer>
+            <AuthStackNavigator />
+          </NavigationContainer>
+        </PaperProvider>
+      )
+    case true:
+      return (
+        <PaperProvider>
+          <NavigationContainer>
+            <HomeStackNavigator />
+          </NavigationContainer>
+        </PaperProvider>
+      )
+    default:
+      return (
+        <View style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}>
+          <ActivityIndicator size="large" />
+        </View>
+      )
+  }
 
 
 

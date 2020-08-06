@@ -118,7 +118,7 @@ function Home({ navigation }) {
       setHeader(value)
     })
   }, [header])
-
+//}, )
 
   return (
     <View>
