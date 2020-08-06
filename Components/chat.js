@@ -27,7 +27,7 @@ class Chat extends React.Component {
   }
 
   parse = snapshot => {
-    const { timestamp: numberStamp, text, user } = snapshot.val();
+    const { timestamp: numberStamp, text, user,sent} = snapshot.val();
     const { key: _id } = snapshot;
     const createdAt = new Date(numberStamp);
     const message = {
@@ -35,6 +35,7 @@ class Chat extends React.Component {
       createdAt,
       text,
       user,
+      sent
     };
     return message;
   };
@@ -55,6 +56,7 @@ class Chat extends React.Component {
         text,
         user,
         timestamp: this.timestamp,
+        sent:true,
       };
       this.append(message);
     }
