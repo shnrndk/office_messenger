@@ -11,6 +11,7 @@ import SignUp from './Components/signUp';
 import Firebase from './firebase';
 import * as firebase from 'firebase';
 import Intro from './Components/into';
+import Chat from './Components/chat';
 
 const Stack = createStackNavigator();
 
@@ -46,7 +47,7 @@ switch (state.loggedIn) {
       <PaperProvider>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{
-          headerShown: true
+          headerShown: false
         }}>
           
           <Stack.Screen name="Intro" component={Intro} />
@@ -61,11 +62,11 @@ switch (state.loggedIn) {
       <PaperProvider>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{
-          headerShown: true
+          headerShown: false
         }}>
           
           
-          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Chat" component={Chat} />
           
         </Stack.Navigator>
       </NavigationContainer>

@@ -1,63 +1,153 @@
 // @flow
-import React from 'react';
-import { GiftedChat } from 'react-native-gifted-chat'; // 0.3.0
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { Button } from 'react-native-paper';
+import { Appbar } from 'react-native-paper';
 import { AsyncStorage } from 'react-native';
-import Fire from '../firebase';
+import { BorderlessButton } from 'react-native-gesture-handler';
 
-class Home extends React.Component {
 
-   getuserName = async()=> {
+function ManagementDept() {
+  return (
+    <View>
+      <Button icon="camera" style={styles.btn} mode="contained" onPress={() => console.log('Pressed')}>
+          Management Group
+      </Button>
+        <Button icon="camera" style={styles.btn} mode="contained" onPress={() => console.log('Pressed')}>
+          HR Group
+      </Button>
+        <Button icon="camera" style={styles.btn} mode="contained" onPress={() => console.log('Pressed')}>
+          Sales Group
+      </Button>
+      <Button icon="camera" style={styles.btn} mode="contained" onPress={() => console.log('Pressed')}>
+          Accounting Group
+      </Button>
+    </View>
+  )
+}
 
-    try {
-        const username = await AsyncStorage.getItem('username');
-        return username
-    } catch (e) {
-        console.log(e)
-    }
-  }
+function HrDept() {
+  return (
+    <View>
+    <Button icon="camera" style={styles.btn} mode="contained" onPress={() => console.log('Pressed')}>
+        HR Group
+    </Button>
+      <Button icon="camera" style={styles.btn} mode="contained" onPress={() => console.log('Pressed')}>
+        HR group and Management Group
+    </Button>
+  </View>
+  )
+}
 
-  state = {
-    messages: [],
-    username:null
-  };
+function SalesDept() {
+  return (
+    <View>
+      <Button icon="camera" style={styles.btn} mode="contained" onPress={() => console.log('Pressed')}>
+          Sales Group
+      </Button>
+        <Button icon="camera" style={styles.btn} mode="contained" onPress={() => console.log('Pressed')}>
+          Sales Group with Management
+      </Button>
+    </View>
+  )
+}
 
-  get user() {
-    return {
-      name: this.state.username,
-      _id: Fire.shared.uid,
-    };
-  }
+function AccountingDep(){
+  return (
+    <View>
+      <Button icon="camera" style={styles.btn} mode="contained" onPress={() => console.log('Pressed')}>
+          Accounting Group
+      </Button>
+        <Button icon="camera" style={styles.btn} mode="contained" onPress={() => console.log('Pressed')}>
+          Accouting Group with management
+      </Button>
+    </View>
+  )
+}
 
-  render() {
-    return (
-      <GiftedChat
-        messages={this.state.messages}
-        onSend={Fire.shared.send}
-        user={this.user}
-      />
-    );
-  }
 
-  componentDidMount() {
-    AsyncStorage.getItem("username").then((value) => {
-      this.setState({
-        ...this.state,
-        username: value
-      });
+function SelectDept(){
+
+  const [department, setDepartment] = useState(null)
+
+  useEffect(() => {
+    AsyncStorage.getItem("department").then((value) => {
+      setDepartment(value)
+    })
   })
- 
 
-    Fire.shared.on(message =>
-      {console.log(message)
-      this.setState(previousState => ({
-        ...this.state,
-        messages: GiftedChat.append(previousState.messages, message),
-      }))}
-    );
-  }
-  componentWillUnmount() {
-    Fire.shared.off();
+  switch(department){
+    case 'Management':return (<ManagementDept />);
+    case 'HR':return( <HrDept />);
+    case 'Sales':return( <SalesDept />);
+    case 'Accounting':return( <AccountingDep />);
+    default : return (
+      <Text>Error</Text>
+    )
   }
 }
 
+
+
+function Home() {
+
+  const _goBack = () => console.log('Went back');
+
+  const _handleSearch = () => console.log('Searching');
+
+  const _handleMore = () => console.log('Shown more');
+
+  const [header, setHeader] = useState(null)
+
+  useEffect(() => {
+    AsyncStorage.getItem("department").then((value) => {
+      setHeader(value)
+    })
+  }, [header])
+
+
+  return (
+    <View>
+      <Appbar.Header>
+        <Appbar.Action icon="menu" onPress={_handleMore} />
+        <Appbar.Content title={header} subtitle="Click a chat group to choose" />
+        
+      </Appbar.Header>
+      <Text style={styles.text}>Available Chat Groups</Text>
+      <View style={styles.container}>
+        <SelectDept />
+      </View>
+
+
+    </View>
+  );
+
+}
+
+
 export default Home;
+
+
+
+const styles = StyleSheet.create({
+
+  btn: {
+    marginTop: 5,
+    marginHorizontal: 20,
+    paddingVertical: 6,
+    marginBottom: 5,
+    borderRadius: 10
+  },
+  container: {
+    marginTop: 30,
+
+  },
+  text:{
+    fontSize:20,
+    fontWeight:"bold",
+    textAlign:"center",
+    textShadowColor:"grey",
+    textShadowRadius:4,
+    marginTop:30
+  }
+})
