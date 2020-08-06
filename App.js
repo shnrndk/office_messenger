@@ -13,7 +13,7 @@ import * as firebase from 'firebase';
 import Intro from './Components/into';
 import Chat from './Components/chat';
 import { AuthStackNavigator } from './Navigation/AuthStackNavigator';
-import { HomeStackNavigator } from './Navigation/HomeStackNavigator';
+import { HomeStackNavigator } from './Navigation/HomeNavigator';
 
 
 

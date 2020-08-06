@@ -5,7 +5,7 @@ import { Button } from 'react-native-paper';
 import { Appbar } from 'react-native-paper';
 import { AsyncStorage } from 'react-native';
 import * as firebase from 'firebase';
-
+import Chat from './chat';
 
 function ManagementDept(props) {
 
@@ -92,6 +92,7 @@ function SelectDept(props){
 
 
 
+
 function Home({ navigation }) {
 
   const _goBack = () => console.log('Went back');
@@ -99,7 +100,7 @@ function Home({ navigation }) {
   const _handleSearch = () => console.log('Searching');
 
   const _handleMore = () => {
-    firebase.auth().signOut()
+      navigation.openDrawer();
   } ;
 
   function goToChat(value){
@@ -109,7 +110,7 @@ function Home({ navigation }) {
   }
 
   const [header, setHeader] = useState(null)
-
+  
 
   
 
