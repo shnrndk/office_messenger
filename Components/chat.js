@@ -4,6 +4,7 @@ import { GiftedChat } from 'react-native-gifted-chat'; // 0.3.0
 import { AsyncStorage } from 'react-native';
 import firebase from 'firebase';
 import Fire from '../firebase';
+import { Appbar } from 'react-native-paper';
 
 class Chat extends React.Component {
 
@@ -68,7 +69,8 @@ class Chat extends React.Component {
 
   state = {
     messages: [],
-    username: null
+    username: null,
+    groupName: null
   };
 
   get user() {
@@ -77,14 +79,24 @@ class Chat extends React.Component {
       _id: this.uid,
     };
   }
+  _goBack = () => this.props.navigation.goBack();
+
+
+
 
   render() {
     return (
-      <GiftedChat
-        messages={this.state.messages}
-        onSend={this.send}
-        user={this.user}
-      />
+      <React.Fragment>
+        <Appbar.Header>
+          <Appbar.BackAction onPress={this._goBack} />
+          <Appbar.Content title={this.state.groupName} subtitle="Group Chat" />
+        </Appbar.Header>
+        <GiftedChat
+          messages={this.state.messages}
+          onSend={this.send}
+          user={this.user}
+        />
+      </React.Fragment>
     );
   }
 
@@ -96,6 +108,31 @@ class Chat extends React.Component {
         username: value
       });
     })
+
+    switch (this.props.route.params.groupName) {
+      case 'Management':
+        this.setState({ ...this.state, groupName: 'Management' })
+        break;
+      case 'Management_HR':
+        this.setState({ ...this.state, groupName: 'Management and HR' });
+        break;
+      case 'Management_Sales':
+        this.setState({ ...this.state, groupName: 'Management and Sales' });
+        break;
+      case 'Management_Accounting':
+        this.setState({ ...this.state, groupName: 'Management and Accounting' });
+        break;
+      case 'Sales':
+        this.setState({ ...this.state, groupName: 'Sales' });
+        break;
+      case 'HR':
+        this.setState({ ...this.state, groupName: 'HR' });
+        break;
+      case 'Accounting':
+        this.setState({ ...this.state, groupName: 'Accounting' });
+        break;
+      default: console.log('Waiting Or Error')
+    }
 
 
     this.on(message =>
