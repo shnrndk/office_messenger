@@ -63,13 +63,13 @@ export default function SignUp() {
 
   let registerSchema = yup.object({
     email: yup.string().email('Invalid email').required('Email is required'),
-    /* password: yup.string()
+    password: yup.string()
       .required('No password provided.')
       .min(8, 'Password is too short - should be 8 chars minimum.')
-      .matches(/[a-zA-Z0-9]/, 'Password can only contain Latin letters or Numbers.'), */
+      .matches(/[a-zA-Z0-9]/, 'Password can only contain Latin letters or Numbers.'),
     first_name: yup.string().required('First Name is Required'),
-    /* passwordConfirmation: yup.string()
-      .oneOf([yup.ref('password'), null], 'Passwords must match'), */
+    passwordConfirmation: yup.string()
+      .oneOf([yup.ref('password'), null], 'Passwords must match'),
 
   })
 
