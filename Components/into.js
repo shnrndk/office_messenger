@@ -6,12 +6,13 @@ export default function Intro({ navigation }) {
     return (
         <ScrollView>
             <View style={styles.imgContainer}>
-                <Image style={styles.img} resizeMode='cover' source={require('../assets/splash.png')} />
+                <Image style={styles.img} resizeMode='cover' source={require('../assets/office.png')} />
             </View>
+
             <View style={styles.container}>
 
                 <Text style={styles.txt}>Office Messenger</Text>
-                <Text style={styles.txtDescription}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut at felis nec tellus lacinia hendrerit. </Text>
+                <Text style={styles.txtDescription}>Office Messenger helps office workers to interact with their co workers through messaging  </Text>
                 <View style={styles.btnContainer}>
                     <Button style={styles.btnSignUp} mode="outlined" onPress={() => navigation.navigate('Sign Up')}>
                         Sign Up
@@ -20,6 +21,8 @@ export default function Intro({ navigation }) {
                         <Text style={{ color: "white" }}>Login</Text>
                     </Button>
                 </View>
+                <Text style={styles.txt1}>Index No: 17000734</Text>
+                <Text style={styles.txt1}>Name: Kalutarage S.R</Text>
             </View>
 
         </ScrollView>
@@ -66,5 +69,12 @@ const styles = StyleSheet.create({
     img: {
         width: 380,
         height: 300
+    },
+    txt1:{
+        marginTop:5,
+        marginBottom: 5,
+        fontSize: 25,
+        fontWeight: 'bold',
+        color: '#6b6dee',
     }
 });
