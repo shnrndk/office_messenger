@@ -22,7 +22,7 @@ class Chat extends React.Component {
   }
 
   get ref() {
-    return firebase.database().ref('messages');
+    return firebase.database().ref(`${this.props.route.params.groupName}`);
   }
 
   parse = snapshot => {
@@ -89,6 +89,7 @@ class Chat extends React.Component {
   }
 
   componentDidMount() {
+    console.log(this.props.route.params.groupName)
     AsyncStorage.getItem("username").then((value) => {
       this.setState({
         ...this.state,
