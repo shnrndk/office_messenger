@@ -29,7 +29,7 @@ function ManagementDept(props) {
   )
 }
 
-function HrDept() {
+function HrDept(props) {
   return (
     <View>
     <Button icon="account-group" style={styles.btn} mode="contained" onPress={() => props.goToChat('HR')}>
@@ -42,7 +42,7 @@ function HrDept() {
   )
 }
 
-function SalesDept() {
+function SalesDept(props) {
   return (
     <View>
       <Button icon="account-group" style={styles.btn} mode="contained" onPress={() => props.goToChat('Sales')}>
@@ -55,13 +55,13 @@ function SalesDept() {
   )
 }
 
-function AccountingDep(){
+function AccountingDep(props){
   return (
     <View>
-      <Button icon="account-group" style={styles.btn} mode="contained" onPress={() => console.log('Accounting')}>
+      <Button icon="account-group" style={styles.btn} mode="contained" onPress={() => props.goToChat('Accounting')}>
           Accounting Group
       </Button>
-        <Button icon="account-group" style={styles.btn} mode="contained" onPress={() => console.log('Management_Accounting')}>
+        <Button icon="account-group" style={styles.btn} mode="contained" onPress={() => props.goToChat('Management_Accounting')}>
           Accouting Group with management
       </Button>
     </View>

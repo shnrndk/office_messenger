@@ -3,6 +3,8 @@ import React from "react";
 import Home from "../Components/home";
 import { createDrawerNavigator,DrawerContentScrollView,DrawerItemList,DrawerItem } from "@react-navigation/drawer";
 import * as firebase from 'firebase';
+import AsyncStorage from '@react-native-community/async-storage';
+
 
 const Drawer = createDrawerNavigator();
 
@@ -12,7 +14,15 @@ const DrawerNavigator = () => {
             return (
               <DrawerContentScrollView {...props}>
                 <DrawerItemList {...props} />
-                <DrawerItem label="Logout" onPress={() => firebase.auth().signOut() } />
+                <DrawerItem label="Logout" onPress={() => {
+                  firebase.auth().signOut()
+                  AsyncStorage.removeItem("department").then((value) => {
+                    console.log("Async Storage Cleared")
+                  })
+                
+                
+                } 
+                  } />
               </DrawerContentScrollView>
             )
           }}>

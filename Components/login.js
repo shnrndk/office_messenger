@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import { Formik } from 'formik';
 import { Button, TextInput } from 'react-native-paper';
 import * as firebase from 'firebase';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 export default function Login() {
 
 
@@ -50,7 +50,8 @@ export default function Login() {
                 console.log(error);
             })
             .then((res) => {
-                onLoginSuccess()
+                
+                
                 firebase.database().ref('users').on('value', (snapshot) => {
                     var users = snapshot.val();
 
@@ -59,23 +60,29 @@ export default function Login() {
                     for (let key in users) {
                         if (users[key]['email'] == values.email) {
                             async function storeUser() {
-                                console.log(users[key])
+                                
                                 try {
                                     await AsyncStorage.setItem('username', users[key].first_name)
                                     await AsyncStorage.setItem('email', users[key].email)
                                     await AsyncStorage.setItem('department', users[key].dept)
+                                    console.log("A")
                                 } catch (e) {
                                     console.log(e)
                                 }
                             }
-
-                            storeUser();
+                            
+                            storeUser().then(()=>{
+                                console.log("B")
+                                onLoginSuccess()
+                            })
+                            
                         }
 
                     }
 
 
                 }
+
                 )
 
 

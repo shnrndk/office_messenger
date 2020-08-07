@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import 'react-native-gesture-handler';
 import Login from './Components/login';
@@ -14,8 +14,8 @@ import Intro from './Components/into';
 import Chat from './Components/chat';
 import { AuthStackNavigator } from './Navigation/AuthStackNavigator';
 import { HomeStackNavigator } from './Navigation/HomeNavigator';
-
-
+import AsyncStorage from '@react-native-community/async-storage';
+import { ActivityIndicator, Colors } from 'react-native-paper';
 
 
 export default function App() {
@@ -24,14 +24,36 @@ export default function App() {
     loggedIn: false
   })
 
-
+  const [department, setDepartment] = useState(null)
 
   useEffect(() => {
+
+    /* const getData = async () => {
+      try {
+        const value = await AsyncStorage.getItem('department')
+        if(value !== null) {
+          setDepartment(value)
+          console.log("A")
+        }
+      } catch(e) {
+        console.log(e)
+      }
+    }
+
+    getData().t */
+
     firebase.auth().onAuthStateChanged(user => {
+      console.log("B")
       if (user) {
         setstate({
-          loggedIn: true
+          loggedIn:null
         })
+        setTimeout(()=>{
+          setstate({
+            loggedIn: true
+          })
+        },2000)
+        
       } else {
         setstate({
           loggedIn: false
@@ -63,7 +85,7 @@ export default function App() {
     default:
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}>
-          <ActivityIndicator size="large" />
+          <ActivityIndicator animating={true} size={"large"}/>
         </View>
       )
   }
