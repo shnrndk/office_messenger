@@ -39,12 +39,16 @@ export default class Profile extends React.Component {
         <Appbar.Content title="Change Avator"  />
         
       </Appbar.Header>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center',marginTop:30 }}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center',marginTop:20 }}>
         {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, borderRadius: 100 }} />}
 
         <Button style={styles.btn} mode="contained" onPress={this._pickImage}>
           <Text style={{ color: "white" }}>Change Avator</Text>
         </Button>
+    <Text style={styles.txtinfo}>NAME: {this.state.username}</Text>
+    <Text style={styles.txtinfo}>EMAIL: {this.state.email}</Text>
+    <Text style={styles.txtinfo}>DEPARTMENT: {this.state.dept}</Text>
+        
       </View>
 
       </React.Fragment>
@@ -231,9 +235,9 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     borderRadius: 30
   },
-  txtLogin: {
-    marginTop: 45,
-    fontSize: 25,
+  txtinfo: {
+    marginTop: 12,
+    fontSize: 23,
     fontWeight: 'bold',
     color: '#6b6dee',
     marginHorizontal: 15,
