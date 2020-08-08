@@ -1,96 +1,9 @@
 // @flow
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Button } from 'react-native-paper';
 import { Appbar } from 'react-native-paper';
 import { AsyncStorage } from 'react-native';
-import * as firebase from 'firebase';
-import Chat from './chat';
-
-function ManagementDept(props) {
-
-  
-
-  return (
-    <View>
-      <Button icon="account-group" style={styles.btn} mode="contained" onPress={() => props.goToChat('Management')}>
-          Management Group
-      </Button>
-        <Button icon="account-group" style={styles.btn} mode="contained" onPress={() => props.goToChat('Management_HR')}>
-          HR Group
-      </Button>
-        <Button icon="account-group" style={styles.btn} mode="contained" onPress={() => props.goToChat('Management_Sales')}>
-          Sales Group
-      </Button>
-      <Button icon="account-group" style={styles.btn} mode="contained" onPress={() => props.goToChat('Management_Accounting')}>
-          Accounting Group
-      </Button>
-    </View>
-  )
-}
-
-function HrDept(props) {
-  return (
-    <View>
-    <Button icon="account-group" style={styles.btn} mode="contained" onPress={() => props.goToChat('HR')}>
-        HR Group
-    </Button>
-      <Button icon="account-group" style={styles.btn} mode="contained" onPress={() => props.goToChat('Management_HR')}>
-        HR group and Management Group
-    </Button>
-  </View>
-  )
-}
-
-function SalesDept(props) {
-  return (
-    <View>
-      <Button icon="account-group" style={styles.btn} mode="contained" onPress={() => props.goToChat('Sales')}>
-          Sales Group
-      </Button>
-        <Button icon="account-group" style={styles.btn} mode="contained" onPress={() => props.goToChat('Management_Sales')}>
-          Sales Group with Management
-      </Button>
-    </View>
-  )
-}
-
-function AccountingDep(props){
-  return (
-    <View>
-      <Button icon="account-group" style={styles.btn} mode="contained" onPress={() => props.goToChat('Accounting')}>
-          Accounting Group
-      </Button>
-        <Button icon="account-group" style={styles.btn} mode="contained" onPress={() => props.goToChat('Management_Accounting')}>
-          Accouting Group with management
-      </Button>
-    </View>
-  )
-}
-
-
-function SelectDept(props){
-
-  const [department, setDepartment] = useState(null)
-
-  useEffect(() => {
-    AsyncStorage.getItem("department").then((value) => {
-      setDepartment(value)
-    })
-  })
-
-  switch(department){
-    case 'Management':return (<ManagementDept goToChat={props.goToChat}/>);
-    case 'HR':return( <HrDept goToChat={props.goToChat} />);
-    case 'Sales':return( <SalesDept goToChat={props.goToChat} />);
-    case 'Accounting':return( <AccountingDep goToChat={props.goToChat} />);
-    default : return (
-      <Text>Error</Text>
-    )
-  }
-}
-
-
+import SelectDept from './Departments/SelectDept';
 
 
 function Home({ navigation }) {
@@ -119,7 +32,6 @@ function Home({ navigation }) {
       setHeader(value)
     })
   }, [header])
-//}, )
 
   return (
     <View>

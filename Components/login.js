@@ -65,14 +65,12 @@ export default function Login() {
                                     await AsyncStorage.setItem('username', users[key].first_name)
                                     await AsyncStorage.setItem('email', users[key].email)
                                     await AsyncStorage.setItem('department', users[key].dept)
-                                    console.log("A")
                                 } catch (e) {
                                     console.log(e)
                                 }
                             }
                             
                             storeUser().then(()=>{
-                                console.log("B")
                                 onLoginSuccess()
                             })
                             

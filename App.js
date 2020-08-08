@@ -43,7 +43,6 @@ export default function App() {
     getData().t */
 
     firebase.auth().onAuthStateChanged(user => {
-      console.log("B")
       if (user) {
         setstate({
           loggedIn:null
