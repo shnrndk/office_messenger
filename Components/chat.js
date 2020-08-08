@@ -5,6 +5,7 @@ import { AsyncStorage } from 'react-native';
 import firebase from 'firebase';
 import Fire from '../firebase';
 import { Appbar } from 'react-native-paper';
+import { bool } from 'yup';
 
 class Chat extends React.Component {
 
@@ -17,6 +18,9 @@ class Chat extends React.Component {
       console.log(e)
     }
   }
+
+  
+
 
   get uid() {
     return (firebase.auth().currentUser || {}).uid;
@@ -72,19 +76,28 @@ class Chat extends React.Component {
   state = {
     messages: [],
     username: null,
-    groupName: null
+    groupName: null,
+    avator:null
   };
 
   get user() {
-    return {
-      name: this.state.username,
-      _id: this.uid,
-    };
+    if(this.state.avator===null){
+      return {
+        name: this.state.username,
+        _id: this.uid,
+      };
+    }else{
+      return {
+        name: this.state.username,
+        _id: this.uid,
+        avatar: this.state.avator
+      };
+    }
+    
   }
+
+
   _goBack = () => this.props.navigation.goBack();
-
-
-
 
   render() {
     return (
@@ -97,6 +110,9 @@ class Chat extends React.Component {
           messages={this.state.messages}
           onSend={this.send}
           user={this.user}
+          showAvatarForEveryMessage={true}
+          onPressAvatar={(user)=>console.log(user)}
+          showUserAvatar={true}
         />
       </React.Fragment>
     );
@@ -135,6 +151,12 @@ class Chat extends React.Component {
         break;
       default: console.log('Waiting Or Error')
     }
+
+    AsyncStorage.getItem("avator").then((value) => {
+      this.setState({
+        ...this.state, avator: value
+      })
+    })
 
 
     this.on(message =>

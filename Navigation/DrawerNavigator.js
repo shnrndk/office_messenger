@@ -1,6 +1,7 @@
 
 import React from "react";
 import Home from "../Components/home";
+import Profile from "../Components/profile";
 import { createDrawerNavigator,DrawerContentScrollView,DrawerItemList,DrawerItem } from "@react-navigation/drawer";
 import * as firebase from 'firebase';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -27,7 +28,7 @@ const DrawerNavigator = () => {
             )
           }}>
             <Drawer.Screen name="Home" component={Home} />
-            
+            <Drawer.Screen name="Profile" component={Profile} />
           </Drawer.Navigator>
 
 
