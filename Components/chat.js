@@ -2,6 +2,14 @@
 import React from 'react';
 import { GiftedChat } from 'react-native-gifted-chat'; // 0.3.0
 import { AsyncStorage } from 'react-native';
+import {
+  Alert,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  View,Image
+} from "react-native";
 import firebase from 'firebase';
 import Fire from '../firebase';
 import { Appbar } from 'react-native-paper';
@@ -19,7 +27,7 @@ class Chat extends React.Component {
     }
   }
 
-  
+
 
 
   get uid() {
@@ -31,7 +39,7 @@ class Chat extends React.Component {
   }
 
   parse = snapshot => {
-    const { timestamp: numberStamp, text, user,sent} = snapshot.val();
+    const { timestamp: numberStamp, text, user, sent } = snapshot.val();
     const { key: _id } = snapshot;
     const createdAt = new Date(numberStamp);
     const message = {
@@ -60,7 +68,7 @@ class Chat extends React.Component {
         text,
         user,
         timestamp: this.timestamp,
-        sent:true,
+        sent: true,
       };
       this.append(message);
     }
@@ -77,41 +85,87 @@ class Chat extends React.Component {
     messages: [],
     username: null,
     groupName: null,
-    avator:null
+    avator: null,
+    tempAvator:false,
+    modalVisible: false,
+    tempname:null
   };
 
+  setModalVisible = (visible) => {
+    this.setState({ ...this.state,modalVisible: visible });
+  }
+
   get user() {
-    if(this.state.avator===null){
+    if (this.state.avator === null) {
       return {
         name: this.state.username,
         _id: this.uid,
       };
-    }else{
+    } else {
       return {
         name: this.state.username,
         _id: this.uid,
         avatar: this.state.avator
       };
     }
-    
+
   }
 
 
   _goBack = () => this.props.navigation.goBack();
 
   render() {
+    const { modalVisible } = this.state;
     return (
       <React.Fragment>
         <Appbar.Header>
           <Appbar.BackAction onPress={this._goBack} />
           <Appbar.Content title={this.state.groupName} subtitle="Group Chat" />
         </Appbar.Header>
+        
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              
+            <Image source={{ uri: this.state.tempAvator }} style={{ width: 200, height: 200, borderRadius: 100 }} />
+        <Text style={{fontSize:20,marginBottom:10}}>Name:{this.state.tempname}</Text>
+              
+              <TouchableHighlight
+                style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                onPress={() => {
+                  this.setModalVisible(!modalVisible);
+                }}
+              >
+                <Text style={styles.textStyle}>Hide Modal</Text>
+              </TouchableHighlight>
+            </View>
+          </View>
+        </Modal>
+        
         <GiftedChat
           messages={this.state.messages}
           onSend={this.send}
           user={this.user}
           showAvatarForEveryMessage={true}
-          onPressAvatar={(user)=>console.log(user)}
+          onPressAvatar={async (user) => {
+            
+              await this.setState({
+                ...this.state,tempAvator:user.avatar,tempname:user.name
+              })
+           
+              
+              
+            console.log(user)
+            this.setModalVisible(true)}
+          }
+
           showUserAvatar={true}
         />
       </React.Fragment>
@@ -173,3 +227,42 @@ class Chat extends React.Component {
 }
 
 export default Chat;
+
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+  openButton: {
+    backgroundColor: "#F194FF",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  }
+});
