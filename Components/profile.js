@@ -33,7 +33,7 @@ export default class Profile extends React.Component {
 
     return (
 
-<View>
+<React.Fragment>
 <Appbar.Header>
         <Appbar.Action icon="menu" onPress={()=>{this.props.navigation.openDrawer();}} />
         <Appbar.Content title="Change Avator"  />
@@ -47,7 +47,7 @@ export default class Profile extends React.Component {
         </Button>
       </View>
 
-</View>
+      </React.Fragment>
 
 
       

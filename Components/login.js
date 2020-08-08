@@ -65,6 +65,7 @@ export default function Login() {
                                     await AsyncStorage.setItem('username', users[key].first_name)
                                     await AsyncStorage.setItem('email', users[key].email)
                                     await AsyncStorage.setItem('department', users[key].dept)
+                                    await AsyncStorage.setItem('avator', users[key].avator)
                                 } catch (e) {
                                     console.log(e)
                                 }

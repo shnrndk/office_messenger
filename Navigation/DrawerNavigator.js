@@ -20,7 +20,9 @@ const DrawerNavigator = () => {
                   AsyncStorage.removeItem("department").then((value) => {
                     console.log("Async Storage Cleared")
                   })
-                
+                  AsyncStorage.removeItem("avator").then((value) => {
+                    console.log("Async Storage Cleared")
+                  })
                 
                 } 
                   } />
