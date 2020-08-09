@@ -1,62 +1,78 @@
-const { disableExpoCliLogging } = require("expo/build/logs/Logs")
-import * as firebase from 'firebase';
-import React, { useState,useEffect,useCallback } from 'react';
+// @flow
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Button } from 'react-native-paper';
-import { GiftedChat } from 'react-native-gifted-chat'
+import { Appbar } from 'react-native-paper';
+import { AsyncStorage } from 'react-native';
+import SelectDept from './Departments/SelectDept';
 
-function getuser(){
-  return (firebase.auth().currentUser || {}).uid;
+
+function Home({ navigation }) {
+
+ 
+
+  const _handleMore = () => {
+      navigation.openDrawer();
+  } ;
+
+  function goToChat(value){
+    navigation.navigate('Chat',{
+      groupName:value
+    })
+  }
+
+  const [header, setHeader] = useState(null)
+  
+
+  
+
+  useEffect(() => {
+    AsyncStorage.getItem("department").then((value) => {
+      setHeader(value)
+    })
+  }, [header])
+
+  return (
+    <View>
+      <Appbar.Header>
+        <Appbar.Action icon="menu" onPress={_handleMore} />
+        <Appbar.Content title={header} subtitle="Click a chat group to choose" />
+        
+      </Appbar.Header>
+      <Text style={styles.text}>Available Chat Groups</Text>
+      <View style={styles.container}>
+        <SelectDept goToChat={goToChat}/>
+      </View>
+
+
+    </View>
+  );
+
 }
 
 
-export default function Home() {
+export default Home;
 
-    const [messages, setMessages] = useState([]);
-
-    useEffect(() => {
-        setMessages([
-          {
-            _id: 1,
-            text: 'Hello developer',
-            createdAt: new Date(),
-            user: {
-              _id: 2,
-              name: 'React Native',
-              avatar: 'https://placeimg.com/140/140/any',
-            },
-          },
-        ])
-      }, [])
-
-      const onSend = useCallback(async (messages = []) => {
-        setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
-        
-
-        let msg = {
-            txt:messages[0]['text'],
-            user:await getuser(),
-            timestamp:firebase.database.ServerValue.TIMESTAMP
-        }
-        
-        
-        firebase.database().ref('messages').push(msg)
-      }, [])
-
-    return (
-        <GiftedChat
-            messages={messages}
-            onSend={messages => onSend(messages)}
-            user={{
-                _id: getuser(),
-            }}
-        />
-    )
-}
 
 
 const styles = StyleSheet.create({
-    container: {
 
-    }
+  btn: {
+    marginTop: 5,
+    marginHorizontal: 20,
+    paddingVertical: 6,
+    marginBottom: 5,
+    borderRadius: 10
+  },
+  container: {
+    marginTop: 30,
+
+  },
+  text:{
+    fontSize:20,
+    fontWeight:"bold",
+    textAlign:"center",
+    textShadowColor:"grey",
+    textShadowRadius:4,
+    marginTop:30
+  }
 })
