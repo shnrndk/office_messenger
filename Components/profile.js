@@ -3,17 +3,11 @@ import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import * as firebase from 'firebase';
-import { StyleSheet, Text, View, Picker, ScrollView, SafeAreaView, Image } from 'react-native';
-import { Button, TextInput } from 'react-native-paper';
-import { Formik } from 'formik';
-import * as yup from 'yup';
+import { StyleSheet, Text, View, Image,ScrollView } from 'react-native';
+import { Button } from 'react-native-paper';
 import { AsyncStorage } from 'react-native';
 import { Appbar } from 'react-native-paper';
 
-const registerSchema = yup.object({
-  email: yup.string().email('Invalid email').required('Email is required'),
-  first_name: yup.string().required('First Name is Required'),
-})
 
 export default class Profile extends React.Component {
 
@@ -34,11 +28,13 @@ export default class Profile extends React.Component {
     return (
 
       <React.Fragment>
+        
         <Appbar.Header>
           <Appbar.Action icon="menu" onPress={() => { this.props.navigation.openDrawer(); }} />
           <Appbar.Content title="Change Avator" />
 
         </Appbar.Header>
+        <ScrollView style={styles.scrollView}>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
           {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, borderRadius: 100 }} />}
 
@@ -50,7 +46,7 @@ export default class Profile extends React.Component {
           <Text style={styles.txtinfo}>DEPARTMENT: {this.state.dept}</Text>
 
         </View>
-
+        </ScrollView>
       </React.Fragment>
 
 
@@ -83,16 +79,6 @@ export default class Profile extends React.Component {
     })
   }
 
-  /* getusername(){
-    async function storeUser() {
-      try {
-        const usrname =  AsyncStorage.getItem('username')
-      } catch (e) {
-        console.log(e)
-      }
-    }
-    storeUser();
-  } */
 
   getPermissionAsync = async () => {
     if (Constants.platform.ios) {
@@ -175,19 +161,9 @@ export default class Profile extends React.Component {
 
               for (let key in users) {
                 if (users[key]['email'] === this.state.email) {
-                  /* await AsyncStorage.setItem('username', users[key].first_name)
-                  await AsyncStorage.setItem('email', users[key].email)
-                  await AsyncStorage.setItem('department', users[key].dept) */
+              
                   console.log(key)
-                  //firebase.database().ref('users').child(`${key}`).push({ avator: this.state.imageURL })
-
-                  /*  firebase.database().ref('Farmers/').child(`${uid}`).child('reviews').child(`${timestamp}`).set({
-                     ...state, id: timestamp
-                 }).then((res) => {
-                     console.log("Success")
-                 }).catch((error) => {
-                     console.log(error)
-                 }) */
+                  
                   firebase.database().ref('users/').child(`${key}`).set({
                     dept: this.state.dept,
                     email: this.state.email,

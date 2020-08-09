@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { AsyncStorage } from 'react-native';
 import ManagementDept from './ManagementDept';
 import SalesDept from './SalesDept';
 import AccountingDep from './AccountingDept';
 import HrDept from './HrDept';
-import { ActivityIndicator, Colors } from 'react-native-paper';
+import { ActivityIndicator } from 'react-native-paper';
 
 export default function SelectDept(props){
 

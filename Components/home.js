@@ -8,9 +8,7 @@ import SelectDept from './Departments/SelectDept';
 
 function Home({ navigation }) {
 
-  const _goBack = () => console.log('Went back');
-
-  const _handleSearch = () => console.log('Searching');
+ 
 
   const _handleMore = () => {
       navigation.openDrawer();

@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { GiftedChat } from 'react-native-gifted-chat'; // 0.3.0
+import { GiftedChat } from 'react-native-gifted-chat'; 
 import { AsyncStorage } from 'react-native';
 import {
   Alert,
@@ -8,12 +8,10 @@ import {
   StyleSheet,
   Text,
   TouchableHighlight,
-  View, Image,Button
+  View, Image
 } from "react-native";
 import firebase from 'firebase';
-import Fire from '../firebase';
 import { Appbar } from 'react-native-paper';
-import { bool } from 'yup';
 import ImgPicker from './ImagePicker/ImgPicker';
 
 
