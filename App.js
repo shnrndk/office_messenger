@@ -1,20 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
 import 'react-native-gesture-handler';
-import Login from './Components/login';
-import Home from './Components/home';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider as PaperProvider } from 'react-native-paper';
-import SignUp from './Components/signUp';
 import Firebase from './firebase';
 import * as firebase from 'firebase';
-import Intro from './Components/into';
-import Chat from './Components/chat';
+
 import { AuthStackNavigator } from './Navigation/AuthStackNavigator';
 import { HomeStackNavigator } from './Navigation/HomeNavigator';
-import AsyncStorage from '@react-native-community/async-storage';
+
 import { ActivityIndicator, Colors } from 'react-native-paper';
 
 
@@ -51,7 +46,7 @@ export default function App() {
           setstate({
             loggedIn: true
           })
-        },2000)
+        },2500)
         
       } else {
         setstate({

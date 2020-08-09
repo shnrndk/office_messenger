@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet,Text } from 'react-native';
 import { AsyncStorage } from 'react-native';
 import ManagementDept from './ManagementDept';
 import SalesDept from './SalesDept';
@@ -23,7 +23,11 @@ export default function SelectDept(props){
       case 'Sales':return( <SalesDept goToChat={props.goToChat} />);
       case 'Accounting':return( <AccountingDep goToChat={props.goToChat} />);
       default : return (
-        <ActivityIndicator animating={true} size={"large"}/>
+        <React.Fragment>
+          <ActivityIndicator animating={true} size={"large"}/>
+          <Text style={{textAlign:"center",fontSize:18,color:'#6b6dee',fontWeight:'bold'}}>Please Logout And Sign In again</Text>
+        </React.Fragment>
+        
       )
     }
   }
