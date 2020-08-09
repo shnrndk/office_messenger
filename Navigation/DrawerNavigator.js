@@ -23,7 +23,12 @@ const DrawerNavigator = () => {
                   AsyncStorage.removeItem("avator").then((value) => {
                     console.log("Async Storage Cleared")
                   })
-                
+                  AsyncStorage.removeItem("username").then((value) => {
+                    console.log("Async Storage Cleared")
+                  })
+                  AsyncStorage.removeItem("email").then((value) => {
+                    console.log("Async Storage Cleared")
+                  })
                 } 
                   } />
               </DrawerContentScrollView>
