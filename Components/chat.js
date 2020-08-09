@@ -8,12 +8,15 @@ import {
   StyleSheet,
   Text,
   TouchableHighlight,
-  View,Image
+  View, Image,Button
 } from "react-native";
 import firebase from 'firebase';
 import Fire from '../firebase';
 import { Appbar } from 'react-native-paper';
 import { bool } from 'yup';
+import ImgPicker from './ImagePicker/ImgPicker';
+
+
 
 class Chat extends React.Component {
 
@@ -39,7 +42,7 @@ class Chat extends React.Component {
   }
 
   parse = snapshot => {
-    const { timestamp: numberStamp, text, user, sent } = snapshot.val();
+    const { timestamp: numberStamp, text, user, sent,image } = snapshot.val();
     const { key: _id } = snapshot;
     const createdAt = new Date(numberStamp);
     const message = {
@@ -47,7 +50,8 @@ class Chat extends React.Component {
       createdAt,
       text,
       user,
-      sent
+      sent,
+      image
     };
     return message;
   };
@@ -64,13 +68,26 @@ class Chat extends React.Component {
   send = messages => {
     for (let i = 0; i < messages.length; i++) {
       const { text, user } = messages[i];
-      const message = {
-        text,
-        user,
-        timestamp: this.timestamp,
-        sent: true,
-      };
-      this.append(message);
+      if(this.state.msgImageUrl==null){
+        const message = {
+          text,
+          user,
+          timestamp: this.timestamp,
+          sent: true,
+        };
+        this.append(message);
+      }else{
+       // console.log(this.state.imgURL+Sahan)
+        const message = {
+          text,
+          user,
+          timestamp: this.timestamp,
+          sent: true,
+          image:this.state.msgImageUrl
+        };
+        this.append(message);
+      }
+      
     }
   };
 
@@ -86,13 +103,14 @@ class Chat extends React.Component {
     username: null,
     groupName: null,
     avator: null,
-    tempAvator:false,
+    tempAvator: false,
     modalVisible: false,
-    tempname:null
+    tempname: null,
+    msgImageUrl:null
   };
 
   setModalVisible = (visible) => {
-    this.setState({ ...this.state,modalVisible: visible });
+    this.setState({ ...this.state, modalVisible: visible });
   }
 
   get user() {
@@ -111,6 +129,12 @@ class Chat extends React.Component {
 
   }
 
+  setmsgImgUrl=(imgURL)=>{
+    this.setState({
+      ...this.state,msgImageUrl:imgURL
+    })
+  }
+
 
   _goBack = () => this.props.navigation.goBack();
 
@@ -122,7 +146,7 @@ class Chat extends React.Component {
           <Appbar.BackAction onPress={this._goBack} />
           <Appbar.Content title={this.state.groupName} subtitle="Group Chat" />
         </Appbar.Header>
-        
+
         <Modal
           animationType="slide"
           transparent={true}
@@ -133,10 +157,10 @@ class Chat extends React.Component {
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              
-            <Image source={{ uri: this.state.tempAvator }} style={{ width: 200, height: 200, borderRadius: 100 }} />
-        <Text style={{fontSize:20,marginBottom:10}}>Name:{this.state.tempname}</Text>
-              
+
+              <Image source={{ uri: this.state.tempAvator }} style={{ width: 200, height: 200, borderRadius: 100 }} />
+              <Text style={{ fontSize: 20, marginBottom: 10 }}>Name:{this.state.tempname}</Text>
+
               <TouchableHighlight
                 style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
                 onPress={() => {
@@ -148,25 +172,39 @@ class Chat extends React.Component {
             </View>
           </View>
         </Modal>
-        
+
         <GiftedChat
           messages={this.state.messages}
           onSend={this.send}
           user={this.user}
           showAvatarForEveryMessage={true}
           onPressAvatar={async (user) => {
-            
-              await this.setState({
-                ...this.state,tempAvator:user.avatar,tempname:user.name
-              })
-           
-              
-              
+
+            await this.setState({
+              ...this.state, tempAvator: user.avatar, tempname: user.name
+            })
+
+
+
             console.log(user)
-            this.setModalVisible(true)}
+            this.setModalVisible(true)
+          }
           }
 
           showUserAvatar={true}
+          /* renderSend={(props) => (
+            
+              <React.Fragment>
+
+              <Chip icon="information" onPress={() => console.log('Pressed')}></Chip>
+              
+            </React.Fragment>
+          )} */
+          renderActions={() => (
+            <React.Fragment>
+              <ImgPicker setmsgImgUrl={this.setmsgImgUrl}/>
+            </React.Fragment>
+          )}
         />
       </React.Fragment>
     );

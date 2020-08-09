@@ -22,39 +22,39 @@ export default class Profile extends React.Component {
     image: null,
     imageURL: null,
     email: null,
-    dept:null,
-    username:null
+    dept: null,
+    username: null
   };
 
-  
+
 
   render() {
     let { image } = this.state;
 
     return (
 
-<React.Fragment>
-<Appbar.Header>
-        <Appbar.Action icon="menu" onPress={()=>{this.props.navigation.openDrawer();}} />
-        <Appbar.Content title="Change Avator"  />
-        
-      </Appbar.Header>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center',marginTop:20 }}>
-        {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, borderRadius: 100 }} />}
+      <React.Fragment>
+        <Appbar.Header>
+          <Appbar.Action icon="menu" onPress={() => { this.props.navigation.openDrawer(); }} />
+          <Appbar.Content title="Change Avator" />
 
-        <Button style={styles.btn} mode="contained" onPress={this._pickImage}>
-          <Text style={{ color: "white" }}>Change Avator</Text>
-        </Button>
-    <Text style={styles.txtinfo}>NAME: {this.state.username}</Text>
-    <Text style={styles.txtinfo}>EMAIL: {this.state.email}</Text>
-    <Text style={styles.txtinfo}>DEPARTMENT: {this.state.dept}</Text>
-        
-      </View>
+        </Appbar.Header>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
+          {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, borderRadius: 100 }} />}
+
+          <Button style={styles.btn} mode="contained" onPress={this._pickImage}>
+            <Text style={{ color: "white" }}>Change Avator</Text>
+          </Button>
+          <Text style={styles.txtinfo}>NAME: {this.state.username}</Text>
+          <Text style={styles.txtinfo}>EMAIL: {this.state.email}</Text>
+          <Text style={styles.txtinfo}>DEPARTMENT: {this.state.dept}</Text>
+
+        </View>
 
       </React.Fragment>
 
 
-      
+
 
     );
   }
@@ -103,7 +103,7 @@ export default class Profile extends React.Component {
     }
   };
 
- 
+
 
   _pickImage = async () => {
     try {
@@ -181,17 +181,17 @@ export default class Profile extends React.Component {
                   console.log(key)
                   //firebase.database().ref('users').child(`${key}`).push({ avator: this.state.imageURL })
 
-                 /*  firebase.database().ref('Farmers/').child(`${uid}`).child('reviews').child(`${timestamp}`).set({
-                    ...state, id: timestamp
-                }).then((res) => {
-                    console.log("Success")
-                }).catch((error) => {
-                    console.log(error)
-                }) */
+                  /*  firebase.database().ref('Farmers/').child(`${uid}`).child('reviews').child(`${timestamp}`).set({
+                     ...state, id: timestamp
+                 }).then((res) => {
+                     console.log("Success")
+                 }).catch((error) => {
+                     console.log(error)
+                 }) */
                   firebase.database().ref('users/').child(`${key}`).set({
-                    dept:this.state.dept,
-                    email:this.state.email,
-                    first_name:this.state.username,
+                    dept: this.state.dept,
+                    email: this.state.email,
+                    first_name: this.state.username,
                     avator: this.state.imageURL
                   }).then((res) => {
                     console.log("Success")
