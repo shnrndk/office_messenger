@@ -17,7 +17,7 @@ export default function SignUp() {
     loading: false,
   })
 
-  const [department, setdepartment] = useState(null);
+  const [department, setdepartment] = useState('Management');
 
   const onRegisterSuccess = () => {
     setstate({
